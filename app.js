@@ -36,9 +36,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
-
-
 /**
  * Routes
  */
@@ -60,7 +57,7 @@ app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
   next(err);
-}); 
+});
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
@@ -75,5 +72,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
-
