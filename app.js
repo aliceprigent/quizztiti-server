@@ -47,6 +47,7 @@ const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/routesUser");
 const teamRouter = require("./routes/teams/routesTeams");
+const quizzRouter = require("./routes/routesQuizz");
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
