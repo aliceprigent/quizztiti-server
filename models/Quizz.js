@@ -5,5 +5,5 @@ const quizzSchema = new Schema({
 
 })
 
-const Quizz = mongoose.model("Quizz", teamSchema);
+const Quizz = mongoose.model("Quizz", quizzSchema);
 module.exports = Quizz;
