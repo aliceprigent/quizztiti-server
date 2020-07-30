@@ -43,11 +43,13 @@ app.use(function (req, res, next) {
 
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
-const userRouter = require("./routes/routesUser")
+const userRouter = require("./routes/routesUser");
+const teamRouter = require("./routes/teams/routesTeams");
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
+app.use("team", teamRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
