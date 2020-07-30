@@ -5,7 +5,7 @@ const TeamModel = require("../../models/Teams")
 router.get("/", function (req, res, next) {
   TeamModel.find()
   .then((listofTeams) => {
-    console.log(`retrived all the teams ! : ${listofTeams.data}`)
+    console.log(`retrived all the teams !`)
     res.status(200).json(listofTeams);
   })
   .catch((err) => res.sendStatus(500))
