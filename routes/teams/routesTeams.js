@@ -12,7 +12,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", (req, res, next) => {
-  TeamModel.create(req.body)
+  TeamModel.create({owner : req.session.currentUser._id , members : [req.session.currentUser._id, ...req.body.members], ...req.body})
   .then((newTeam) => {
     console.log(`new team created ! ${newTeam}`)
     res.status(201).json(newTeam);

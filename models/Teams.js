@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const teamSchema = new Schema({
+  owner: { type: Schema.Types.ObjectId, ref: "User" },
   name: { type: String, required: true },
   image: String,
   members: { type: [Schema.Types.ObjectId], ref: "User" },
