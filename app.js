@@ -36,9 +36,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
-
-
 /**
  * Routes
  */
@@ -52,7 +49,7 @@ const quizzRouter = require("./routes/routesQuizz");
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
-app.use("team", teamRouter);
+app.use("/teams", teamRouter);
 app.use("/quizz", quizzRouter);
 
 // 404 Middleware
@@ -60,7 +57,7 @@ app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
   next(err);
-}); 
+});
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
@@ -75,5 +72,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
-
