@@ -1,6 +1,5 @@
 require("dotenv").config(); 
 require("./../config/dbConnection");
-require("moongose");
 const UserModel = require("../models/User")
 
 const user = {

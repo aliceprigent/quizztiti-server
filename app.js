@@ -36,15 +36,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-/**
- * Routes
- */
 
-const indexRouter = require("./routes/index");
-const authRouter = require("./routes/auth");
-
-app.use("/", indexRouter);
-app.use("/api/auth", authRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
@@ -64,5 +56,17 @@ app.use((err, req, res, next) => {
     res.json(err);
   }
 });
+
+/**
+ * Routes
+ */
+
+const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/routesUser")
+
+app.use("/", indexRouter);
+app.use("/api/auth", authRouter);
+app.use("/user", userRouter);
 
 module.exports = app;

@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const UserModel = require("../models/User");
+const User = require("../models/User");
 
 router.get("/full-user", function (req, res, next) {
-  UserModel.findById(req.session.currentUser._id)
+  User.findById(req.session.currentUser._id)
     .populate("Quizz")
     .populate("Team")
     .then((dBres) => {
@@ -14,8 +14,8 @@ router.get("/full-user", function (req, res, next) {
     });
 });
 
-router.get("/user", (req, res, next) => {
-  UserModel.findById(req.session.currentUser._id)
+router.get("/", (req, res, next) => {
+  User.findById(req.session.currentUser._id)
     .populate("Quizz")
     .then((oneUser) => {
       res.status(200).json(oneUser);
@@ -25,8 +25,8 @@ router.get("/user", (req, res, next) => {
     });
 });
 
-router.patch("/user/edit", (req, res) => {
-  UserModel.findByIdAndUpdate(req.session.currentUser._id, req.body, {
+router.patch("/edit", (req, res) => {
+  User.findByIdAndUpdate(req.session.currentUser._id, req.body, {
     new: true,
   })
     .then((updatedUser) => {
@@ -38,7 +38,7 @@ router.patch("/user/edit", (req, res) => {
 });
 
 router.get("/all-users", (req, res, next) => {
-  UserModel.find()
+  User.find()
     .then((users) => {
       res.status(200).json(users);
     })
