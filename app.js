@@ -50,6 +50,7 @@ app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
 app.use("team", teamRouter);
+app.use("/quizz", quizzRouter);
 
 // 404 Middleware
 app.use((req, res, next) => {
