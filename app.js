@@ -50,7 +50,7 @@ const quizzRouter = require("./routes/routesQuizz");
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
-app.use("team", teamRouter);
+app.use("/teams", teamRouter);
 app.use("/quizz", quizzRouter);
 
 // 404 Middleware
