@@ -11,6 +11,15 @@ router.get("/", function (req, res, next) {
   .catch((err) => res.sendStatus(500))
 });
 
+router.post("/", (req, res, next) => {
+  TeamModel.create(req.body)
+  .then((newTeam) => {
+    console.log(`new team created ! ${newTeam}`)
+    res.status(201).json(newTeam);
+  })
+})
+
+
 router.get("/:id", function (req, res, next) {
   TeamModel.findById(req.params.id)
   .then((TeamJSON) => {
@@ -20,11 +29,11 @@ router.get("/:id", function (req, res, next) {
   .catch((err) => res.sendStatus(500))
 });
 
-router.patch("/:id/edit", function (req, res, next) {
+router.patch("/:id", function (req, res, next) {
   TeamModel.findByIdAndUpdate(req.params.id, req.body, {new : true})
   .then((TeamJSON) => {
     console.log(`updated the team with unique ID ! here's the update : ${TeamJSON.data}`)
-    res.status(201).json(TeamJSON);
+    res.status(202).json(TeamJSON);
   })
   .catch((err) => res.sendStatus(500))
 });
@@ -33,7 +42,7 @@ router.delete("/:id", function (req, res, next) {
   TeamModel.findByIdAndDelete(req.params.id)
   .then(() => {
     console.log(`team deleted :(`);
-    res.sendStatus(200)
+    res.sendStatus(202)
   })
   .catch((err) => res.sendStatus(500))
 });
