@@ -2,21 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-router.get("/full-user", function (req, res, next) {
+router.get("/me", (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .populate("Quizz")
     .populate("Team")
-    .then((dBres) => {
-      res.status(200).json(dBres);
-    })
-    .catch((err) => {
-      res.status(500).json(res);
-    });
-});
-
-router.get("/", (req, res, next) => {
-  User.findById(req.session.currentUser._id)
-    .populate("Quizz")
     .then((oneUser) => {
       res.status(200).json(oneUser);
     })
@@ -25,7 +14,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.patch("/edit", (req, res) => {
+router.patch("/me", (req, res) => {
   User.findByIdAndUpdate(req.session.currentUser._id, req.body, {
     new: true,
   })
@@ -37,7 +26,7 @@ router.patch("/edit", (req, res) => {
     });
 });
 
-router.get("/all-users", (req, res, next) => {
+router.get("/", (req, res, next) => {
   User.find()
     .then((users) => {
       res.status(200).json(users);

@@ -38,12 +38,25 @@ app.use(function (req, res, next) {
 
 
 
+
+/**
+ * Routes
+ */
+
+const indexRouter = require("./routes/index");
+const authRouter = require("./routes/auth");
+const userRouter = require("./routes/routesUser")
+
+app.use("/", indexRouter);
+app.use("/api/auth", authRouter);
+app.use("/users", userRouter);
+
 // 404 Middleware
 app.use((req, res, next) => {
   const error = new Error("Ressource not found.");
   error.status = 404;
   next(err);
-});
+}); 
 
 // Error handler middleware
 // If you pass an argument to your next function in any of your routes or middlewares
@@ -57,16 +70,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-/**
- * Routes
- */
-
-const indexRouter = require("./routes/index");
-const authRouter = require("./routes/auth");
-const userRouter = require("./routes/routesUser")
-
-app.use("/", indexRouter);
-app.use("/api/auth", authRouter);
-app.use("/user", userRouter);
-
 module.exports = app;
+
+
