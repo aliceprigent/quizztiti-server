@@ -15,6 +15,7 @@ router.get("/me", (req, res, next) => {
 });
 
 router.patch("/me", (req, res) => {
+  console.log(req.body)
   User.findByIdAndUpdate(req.session.currentUser._id, req.body, {
     new: true,
   })
