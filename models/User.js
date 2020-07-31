@@ -5,10 +5,7 @@ const userSchema = new Schema({
   name: String,
   email: { type: String, required: true },
   password: { type: String, required: true },
-  image: {
-    type: String,
-    default: "https://img.icons8.com/color/48/000000/einstein.png",
-  },
+  image: String,
   quizzCreated: [
     {
       type: Schema.Types.ObjectId,
