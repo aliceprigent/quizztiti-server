@@ -33,7 +33,7 @@ router.post("/", (req, res, next) => {
      
       console.log("NEWQUIZZID",newQuizz,newQuizz._id)
       User.findByIdAndUpdate(req.session.currentUser._id, {
-        $push: {createdQuizz: newQuizz._id }
+        $push: {quizzCreated: newQuizz._id }
       
       })
         .then((updUser) => {
