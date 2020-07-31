@@ -9,6 +9,12 @@ const userSchema = new Schema({
     type: String,
     default: "https://img.icons8.com/color/48/000000/einstein.png",
   },
+  teams: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Team",
+    },
+  ],
   quizzCreated: [
     {
       type: Schema.Types.ObjectId,
