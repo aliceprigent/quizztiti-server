@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const TeamModel = require("../../models/Teams")
+const UserModel = require("../../models/User")
 const fileUpload = require("../../config/cloudinary");
 
 router.get("/", function (req, res, next) {
@@ -19,7 +20,11 @@ router.post("/", fileUpload.single("image"),(req, res, next) => {
         image : req.file.path,
           ...req.body})
   .then((newTeam) => {
-    console.log(`new team created ! ${newTeam}`)
+    console.log(`new team created !`)
+    newTeam.members.forEach( member => {
+     UserModel.findByIdAndUpdate(member, { $push: { teams : newTeam._id}})
+    }
+    )
     res.status(201).json(newTeam);
   })
 })
