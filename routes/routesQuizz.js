@@ -23,6 +23,8 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+console.log("coucou")
+
 router.post("/", (req, res, next) => {
   var quizzToCreate=req.body;
   var quizzToCreate.creator=req.session.currentUser._id
