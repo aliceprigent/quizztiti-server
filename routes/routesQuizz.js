@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Quizz = require("../models/Quizz");
-const User=require("../models/User")
+const User = require("../models/User");
 
 router.get("/", (req, res, next) => {
   Quizz.find()
@@ -23,15 +23,25 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+console.log("coucou")
+
 router.post("/", (req, res, next) => {
-  Quizz.create(req.body)
-    .then((createdQuizz) => {
-      res.status(201).json(createdQuizz);
-      User.findByIdAndUpdate(req.session.currentUser._id,{ $push: { createdQuizz: createdQuizz._id } })   
-      .then((updUser)=>{res.status(201).json(createdQuizz)}) 
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+  var quizzToCreate=req.body;
+  quizzToCreate.creator=req.session.currentUser._id;
+  Quizz.create(quizzToCreate)
+    .then((newQuizz) => {
+     
+      console.log("NEWQUIZZID",newQuizz,newQuizz._id)
+      User.findByIdAndUpdate(req.session.currentUser._id, {
+        $push: {createdQuizz: newQuizz._id }
+      
+      })
+        .then((updUser) => {
+          res.status(201).json(newQuizz);
+        })
+        .catch((err) => {
+          res.status(500).json(err);
+        });
     })
     .catch((err) => {
       res.status(500).json(err);
@@ -40,11 +50,12 @@ router.post("/", (req, res, next) => {
 
 router.patch("/:id", (req, res, next) => {
   Quizz.findByIdAndUpdate(req.params.id, req.body, { new: true })
-  .then((updatedQuizz) => {
-    res.status(200).json(updatedQuizz);
-  }).catch((err) => {
-    res.status(500).json(err);
-  });
+    .then((updatedQuizz) => {
+      res.status(200).json(updatedQuizz);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
 });
 
 router.delete("/:id", (req, res, next) => {
