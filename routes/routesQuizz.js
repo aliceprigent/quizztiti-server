@@ -27,8 +27,8 @@ console.log("coucou")
 
 router.post("/", (req, res, next) => {
   var quizzToCreate=req.body;
-  var quizzToCreate.creator=req.session.currentUser._id
-  Quizz.create(req.body&&{creator: req.session.currentUser._id })
+  quizzToCreate.creator=req.session.currentUser._id;
+  Quizz.create(quizzToCreate)
     .then((newQuizz) => {
      
       console.log("NEWQUIZZID",newQuizz,newQuizz._id)
