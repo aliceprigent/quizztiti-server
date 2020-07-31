@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const TeamModel = require("../../models/Teams")
+const fileUpload = require("../../config/cloudinary");
 
 router.get("/", function (req, res, next) {
   TeamModel.find()
@@ -11,7 +12,7 @@ router.get("/", function (req, res, next) {
   .catch((err) => res.sendStatus(500))
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", fileUpload.single("image"),(req, res, next) => {
   TeamModel.create({owner : req.session.currentUser._id , members : [req.session.currentUser._id, ...req.body.members], ...req.body})
   .then((newTeam) => {
     console.log(`new team created ! ${newTeam}`)
@@ -29,7 +30,7 @@ router.get("/:id", function (req, res, next) {
   .catch((err) => res.sendStatus(500))
 });
 
-router.patch("/:id", function (req, res, next) {
+router.patch("/:id", fileUpload.single("image"), function (req, res, next) {
   TeamModel.findByIdAndUpdate(req.params.id, req.body, {new : true})
   .then((TeamJSON) => {
     console.log(`updated the team with unique ID ! here's the update : ${TeamJSON.data}`)
