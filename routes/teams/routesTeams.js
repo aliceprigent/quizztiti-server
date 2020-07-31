@@ -13,11 +13,11 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", fileUpload.single("image"),(req, res, next) => {
-  var newTeam = req.body;
-  //newTeam.image = req.file.path;
-  newTeam.owner = req.session.currentUser._id;
-  newTeam.members = [req.session.currentUser._id, ... req.body.members];
-  TeamModel.create(newTeam)
+  TeamModel.create(
+    {owner : req.session.currentUser._id ,
+       members : [req.session.currentUser._id, ...req.body.members],
+        image : req.file.path,
+          ...req.body})
   .then((newTeam) => {
     console.log(`new team created ! ${newTeam}`)
     res.status(201).json(newTeam);
