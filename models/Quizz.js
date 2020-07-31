@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 const quizzSchema = new Schema({
   supplier: String,
   author: String,
-  image: String,
+  image: {
+    type: String,
+    default:"/media/quizzDefault.jpg",
+  },
   title: String,
   quizzTotal: [
     {
-   
       question: String,
       propositions: [String],
       answer: String,
@@ -26,17 +29,13 @@ const quizzSchema = new Schema({
       "Miscellaneous",
     ],
   },
-  status:{
-      type:String,
-      enum:[
-          "Public",
-          "Private",
-      ]
-  }
+  status: {
+    type: String,
+    enum: ["Public", "Private"],
+  },
 });
 
 const Quizz = mongoose.model("Quizz", quizzSchema);
 module.exports = Quizz;
 
-
- //   index: { type: Number, index: true },
+//   index: { type: Number, index: true },

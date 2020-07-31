@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Quizz = require("../models/Quizz");
+const User=require("../models/User")
 
 router.get("/", (req, res, next) => {
   Quizz.find()
@@ -26,6 +27,11 @@ router.post("/", (req, res, next) => {
   Quizz.create(req.body)
     .then((createdQuizz) => {
       res.status(201).json(createdQuizz);
+      User.findByIdAndUpdate(req.session.currentUser._id,{ $push: { createdQuizz: createdQuizz._id } })   
+      .then((updUser)=>{res.status(201).json(createdQuizz)}) 
+      .catch((err) => {
+        res.status(500).json(err);
+      });
     })
     .catch((err) => {
       res.status(500).json(err);
