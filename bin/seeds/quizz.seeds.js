@@ -47,6 +47,7 @@ Promise.all(promises).then((resp) => {
       quizzTotal: englishQuizz.map((question) => {
         //   console.log("question", question)
         return {
+          index:question.id,
           question: question.question,
           propositions: question.propositions,
           answer: question.réponse,
@@ -64,7 +65,7 @@ Promise.all(promises).then((resp) => {
     })
 });
 
-console.log("NEW QUIZ", newQuizz);
+
 
 
 // newQuizz.forEach((toto)=>{

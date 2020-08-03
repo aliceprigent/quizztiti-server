@@ -23,18 +23,16 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-console.log("coucou")
+console.log("coucou");
 
 router.post("/", (req, res, next) => {
-  var quizzToCreate=req.body;
-  quizzToCreate.creator=req.session.currentUser._id;
+  var quizzToCreate = req.body;
+  quizzToCreate.creator = req.session.currentUser._id;
   Quizz.create(quizzToCreate)
     .then((newQuizz) => {
-     
-      console.log("NEWQUIZZID",newQuizz,newQuizz._id)
+      // console.log("NEWQUIZZID", newQuizz, newQuizz._id);
       User.findByIdAndUpdate(req.session.currentUser._id, {
-        $push: {createdQuizz: newQuizz._id }
-      
+        $push: { quizzCreated: newQuizz._id },
       })
         .then((updUser) => {
           res.status(201).json(newQuizz);

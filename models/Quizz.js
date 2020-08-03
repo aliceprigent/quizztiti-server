@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const quizzSchema = new Schema({
   supplier: {
-    type:String,
-    default:"Quizztiti"
+    type: String,
+    default: "Quizztiti",
   },
   author: String,
   image: {
@@ -14,6 +14,7 @@ const quizzSchema = new Schema({
   title: String,
   quizzTotal: [
     {
+      index: Number,
       question: String,
       propositions: [String],
       answer: String,
@@ -30,6 +31,7 @@ const quizzSchema = new Schema({
       "Society",
       "Miscellaneous",
     ],
+    default: "Miscellaneous",
   },
   status: {
     type: String,
@@ -43,5 +45,3 @@ const quizzSchema = new Schema({
 
 const Quizz = mongoose.model("Quizz", quizzSchema);
 module.exports = Quizz;
-
-
