@@ -3,6 +3,7 @@ const router = express.Router();
 const Quizz = require("../models/Quizz");
 const User = require("../models/User");
 const fileUpload = require("../config/cloudinary");
+const app = express();
 
 
 router.get("/", (req, res, next) => {
@@ -24,6 +25,7 @@ router.get("/:id", (req, res, next) => {
       res.status(500).json(err);
     });
 });
+
 
 
 router.post("/", fileUpload.single("image"),(req, res, next) => {
