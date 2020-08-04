@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Quizz = require("../models/Quizz");
 const User = require("../models/User");
+const fileUpload = require("../config/cloudinary");
+
 
 router.get("/", (req, res, next) => {
   Quizz.find()
@@ -24,9 +26,13 @@ router.get("/:id", (req, res, next) => {
 });
 
 
-router.post("/", (req, res, next) => {
+router.post("/", fileUpload.single("image"),(req, res, next) => {
   var quizzToCreate = req.body;
-  quizzToCreate.creator = req.session.currentUser._id;
+  quizzToCreate.creator = req.session.currentUser._id;  
+  if (!req.file) {
+    delete quizzToCreate.image
+  }else{
+    quizzToCreate.image = req.file.path;}
   Quizz.create(quizzToCreate)
     .then((newQuizz) => {
       // console.log("NEWQUIZZID", newQuizz, newQuizz._id);
