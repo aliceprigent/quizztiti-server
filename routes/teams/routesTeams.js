@@ -51,7 +51,17 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.patch("/:id", fileUpload.single("image"), function (req, res, next) {
-  TeamModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  var updTeam = {
+    members: [req.session.currentUser._id, ...req.body.members],
+    ...req.body,
+  };
+
+  delete updTeam.image;
+
+  if (req.file) {
+    updTeam.image = req.file.path;
+  }
+  TeamModel.findByIdAndUpdate(req.params.id, updTeam, { new: true })
     .then((TeamJSON) => {
       console.log(
         `updated the team with unique ID ! here's the update : ${TeamJSON.data}`

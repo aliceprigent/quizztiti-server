@@ -9,8 +9,8 @@ const teamSchema = new Schema({
     default: "/media/teams/flame-success.png",
   },
   description : String,
-  members: { type: [Schema.Types.ObjectId], ref: "User" },
-  teamQuizz: { type: [Schema.Types.ObjectId], ref: "Quizz" },
+  members: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  teamQuizz: [{ type: Schema.Types.ObjectId, ref: "Quizz" }],
 });
 
 const Team = mongoose.model("Team", teamSchema);
