@@ -6,14 +6,15 @@ const User = require("../models/User");
 const salt = 10;
 
 router.post("/signin", (req, res, next) => {
+  // console.log('login in backend', req.body)
   const { email, password } = req.body;
   User.findOne({ email }).then((userDocument) => {
     if (!userDocument) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid email" });
     }
     const isValidPassword = bcrypt.compareSync(password, userDocument.password);
     if (!isValidPassword) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password"});
     }
     const userObj = userDocument.toObject();
     delete userObj.password;

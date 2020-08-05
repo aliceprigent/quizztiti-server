@@ -54,6 +54,25 @@ router.get("/:id", function (req, res, next) {
     .catch((err) => res.sendStatus(500));
 });
 
+
+
+
+router.patch("/:id/quizzes", function (req, res, next) {
+
+  TeamModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  .then(updTeam => TeamModel.populate(updTeam, {path:'teamQuizz', model: 'Quizz' }))
+    .then((TeamJSON) => {
+      console.log(
+        `updated team quizzes ! here's the update : ${TeamJSON}`
+      );
+      res.status(202).json(TeamJSON);
+    })
+    .catch((err)=> console.error('error while populating', err))
+
+  .catch((err) => res.sendStatus(500));
+});
+
+
 router.patch("/:id", fileUpload.single("image"), function (req, res, next) {
   var updTeam = {
     members: [req.session.currentUser._id, ...req.body.members],
