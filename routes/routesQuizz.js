@@ -53,8 +53,16 @@ router.post("/", fileUpload.single("image"),(req, res, next) => {
     });
 });
 
-router.patch("/:id", (req, res, next) => {
-  Quizz.findByIdAndUpdate(req.params.id, req.body, { new: true })
+router.patch("/:id", fileUpload.single("image"),(req, res, next) => {
+  var quizzToUpdate = req.body;
+    if (!req.file) {
+    delete quizzToUpdate.image
+  }else{
+    quizzToUpdate.image = req.file.path;}
+console.log(req.body,req.file)
+
+  Quizz.findByIdAndUpdate(req.params.id,quizzToUpdate, { new: true })
+  
     .then((updatedQuizz) => {
       res.status(200).json(updatedQuizz);
     })

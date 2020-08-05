@@ -21,21 +21,24 @@ router.patch("/:id", fileUpload.single("image"), (req, res, next) => {
     _idIndex,
     index,
     question,
-    propositions,
+    proposition1,
+    proposition2,
+    proposition3,
+    proposition4,
     answer,
     funFact,
   } = req.body;
   // console.log("REQ.body",req.body,"req.params.id",req.params.id)
-  let questToSend = null;
-  questToSend = { question, propositions, answer, funFact };
-  console.log("questToSend", questToSend.question);
-
+  
   Quizz.updateOne(
-    { _id: _idParentQuizz, "quizzTotal._id": req.params.id },
+    { _id: _idParentQuizz, "quizzTotal._id": req.params.id ,},
     {
       $set: {
         "quizzTotal.$.question": question,
-        "quizzTotal.$.propositions": {$set:{"propositions.$.[0]":propositions[0]}},
+        "quizzTotal.$.propositions.0": proposition1,
+        "quizzTotal.$.propositions.1": proposition2,
+        "quizzTotal.$.propositions.2": proposition3,
+        "quizzTotal.$.propositions.4": proposition4,
         "quizzTotal.$.answer": answer,
         "quizzTotal.$.funFact":funFact
       },
