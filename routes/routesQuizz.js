@@ -74,7 +74,13 @@ console.log(req.body,req.file)
 router.delete("/:id", (req, res, next) => {
   Quizz.findByIdAndDelete(req.params.id)
     .then((quizzDeleted) => {
-      res.sendStatus(204);
+      User.findByIdAndUpdate(req.session.currentUser._id, {
+        $pull: { quizzCreated: req.params.id },
+      })
+      then((dbRes)=>{
+        res.sendStatus(202);
+      })
+      .catch((err) => console.error(err));
     })
     .catch((err) => {
       res.status(500).json(err);
