@@ -28,7 +28,7 @@ router.get("/:id", (req, res, next) => {
 
 
 
-router.post("/", fileUpload.single("image"),(req, res, next) => {
+router.post("/new", fileUpload.single("image"),(req, res, next) => {
   var quizzToCreate = req.body;
   quizzToCreate.creator = req.session.currentUser._id;  
   if (!req.file) {
