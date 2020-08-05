@@ -45,12 +45,15 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/routesUser");
 const teamRouter = require("./routes/teams/routesTeams");
 const quizzRouter = require("./routes/routesQuizz");
+const questionsRouter = require("./routes/routesQuestions");
+
 
 app.use("/", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/teams", teamRouter);
 app.use("/quizz", quizzRouter);
+app.use("/question",questionsRouter)
 
 // 404 Middleware
 app.use((req, res, next) => {
