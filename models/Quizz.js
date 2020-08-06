@@ -25,8 +25,8 @@ const quizzSchema = new Schema({
     type: String,
     enum: [
       "Nature",
-      "General Culture",
-      "Health and Beauty",
+      "General",
+      "Health",
       "Celebrity",
       "Society",
       "Miscellaneous",
