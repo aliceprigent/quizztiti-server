@@ -48,12 +48,19 @@ const quizzRouter = require("./routes/routesQuizz");
 const questionsRouter = require("./routes/routesQuestions");
 
 
-app.use("/", indexRouter);
+
 app.use("/api/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/teams", teamRouter);
 app.use("/quizz", quizzRouter);
 app.use("/question",questionsRouter)
+
+if (process.env.NODE_ENV === "production") {
+  app.use("*", (req, res, next) => {
+    // If no routes match, send them the React HTML.
+    res.sendFile(__dirname + "/public/index.html");
+  });
+}
 
 // 404 Middleware
 app.use((req, res, next) => {
