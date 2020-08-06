@@ -50,10 +50,10 @@ const questionsRouter = require("./routes/routesQuestions");
 
 
 app.use("/api/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/teams", teamRouter);
-app.use("/quizz", quizzRouter);
-app.use("/question",questionsRouter)
+app.use("/api/users", userRouter);
+app.use("/api/teams", teamRouter);
+app.use("/api/quizz", quizzRouter);
+app.use("/api/question",questionsRouter)
 
 if (process.env.NODE_ENV === "production") {
   app.use("*", (req, res, next) => {
