@@ -40,7 +40,7 @@ router.patch("/:id", fileUpload.single("image"), (req, res, next) => {
         "quizzTotal.$.propositions.0": proposition1,
         "quizzTotal.$.propositions.1": proposition2,
         "quizzTotal.$.propositions.2": proposition3,
-        "quizzTotal.$.propositions.4": proposition4,
+        "quizzTotal.$.propositions.3": proposition4,
         "quizzTotal.$.answer": answer,
         "quizzTotal.$.funFact":funFact
       },
