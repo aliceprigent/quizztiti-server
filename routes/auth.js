@@ -25,7 +25,7 @@ router.post("/signin", (req, res, next) => {
 
 router.post("/signup", (req, res, next) => {
   const { name, email, password, image } = req.body;
-  console.log(req.body)
+  // console.log(req.body)
 
   User.findOne({ email }).then((userDocument) => {
     if (userDocument) {

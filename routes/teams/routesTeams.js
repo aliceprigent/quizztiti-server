@@ -7,7 +7,7 @@ const fileUpload = require("../../config/cloudinary");
 router.get("/", function (req, res, next) {
   TeamModel.find()
     .then((listofTeams) => {
-      console.log(`retrived all the teams !`);
+      // console.log(`retrived all the teams !`);
       res.status(200).json(listofTeams);
     })
     .catch((err) => res.sendStatus(500));
@@ -49,7 +49,7 @@ router.get("/:id", function (req, res, next) {
     .populate("members")
     .populate("teamQuizz")
     .then((TeamJSON) => {
-      console.log(`retrived the team with unique ID ! : ${TeamJSON.data}`);
+      // console.log(`retrived the team with unique ID ! : ${TeamJSON.data}`);
       res.status(200).json(TeamJSON);
     })
     .catch((err) => res.sendStatus(500));
@@ -63,9 +63,9 @@ router.patch("/:id/quizzes", function (req, res, next) {
   TeamModel.findByIdAndUpdate(req.params.id, req.body, { new: true })
   .then(updTeam => TeamModel.populate(updTeam, {path:'teamQuizz', model: 'Quizz' }))
     .then((TeamJSON) => {
-      console.log(
-        `updated team quizzes ! here's the update : ${TeamJSON}`
-      );
+      // console.log(
+      //   `updated team quizzes ! here's the update : ${TeamJSON}`
+      // );
       res.status(202).json(TeamJSON);
     })
     .catch((err)=> console.error('error while populating', err))
@@ -87,9 +87,9 @@ router.patch("/:id", fileUpload.single("image"), function (req, res, next) {
   }
   TeamModel.findByIdAndUpdate(req.params.id, updTeam, { new: true })
     .then((TeamJSON) => {
-      console.log(
-        `updated the team with unique ID ! here's the update : ${TeamJSON.data}`
-      );
+      // console.log(
+      //   `updated the team with unique ID ! here's the update : ${TeamJSON.data}`
+      // );
       res.status(202).json(TeamJSON);
     })
     .catch((err) => res.sendStatus(500));
@@ -98,14 +98,14 @@ router.patch("/:id", fileUpload.single("image"), function (req, res, next) {
 router.delete("/:id", function (req, res, next) {
   TeamModel.findByIdAndDelete(req.params.id)
     .then(() => {
-      console.log(`team deleted :(`);
+      // console.log(`team deleted :(`);
       UserModel.updateMany(
         { teams:  req.params.id },
         { $pull: { teams: req.params.id } },
         { new: true }
       )
         .then((DBres) => {
-          console.log("team deleted in member");
+          // console.log("team deleted in member");
           res.sendStatus(202);
         })
         .catch((err) => console.error(err));
