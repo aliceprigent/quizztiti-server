@@ -59,7 +59,7 @@ router.patch("/:id", fileUpload.single("image"),(req, res, next) => {
     delete quizzToUpdate.image
   }else{
     quizzToUpdate.image = req.file.path;}
-console.log(req.body,req.file)
+// console.log(req.body,req.file)
 
   Quizz.findByIdAndUpdate(req.params.id,quizzToUpdate, { new: true })
   
