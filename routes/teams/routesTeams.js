@@ -14,11 +14,13 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", fileUpload.single("image"), (req, res, next) => {
+  const members = req.body.members.map(m => m._id);
   var newTeam = {
-    owner: req.session.currentUser._id,
-    members: [req.session.currentUser._id, ...req.body.members],
     ...req.body,
+    owner: req.session.currentUser._id,
+    members: [req.session.currentUser._id, ...members],
   };
+  
 
   delete newTeam.image;
 
@@ -26,19 +28,18 @@ router.post("/", fileUpload.single("image"), (req, res, next) => {
     newTeam.image = req.file.path;
   }
 
-  TeamModel.create(newTeam).then((newTeam) => {
-    console.log(`new team created !`);
+  TeamModel.create(newTeam).then((dbRes) => {
+    // console.log(`new team created !`);
     // newTeam.members.forEach((member) => {
     //   console.log("here's one member of the team", newTeam.name, " - ", member);
     UserModel.updateMany(
       { _id: { $in: newTeam.members } },
-      { $push: { teams: newTeam._id } },
+      { $push: { teams: dbRes._id } },
       { new: true }
     )
-      .then((DBres) => console.log("new team added to member"))
+      .then((DBres) => console.log("team entry created in member"))
       .catch((err) => console.error(err));
-    // });
-    res.status(201).json(newTeam);
+    res.status(201).json(dbRes);
   });
 });
 

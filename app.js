@@ -32,7 +32,7 @@ app.use(
 
 // Test to see if user is logged In before getting into any router.
 app.use(function (req, res, next) {
-  console.log(req.session.currentUser);
+  //console.log(req.session.currentUser);
   next();
 });
 
