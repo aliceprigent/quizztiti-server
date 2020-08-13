@@ -30,6 +30,10 @@ const userSchema = new Schema({
       score: Number,
     },
   ],
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

@@ -41,6 +41,10 @@ const quizzSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  isPublished: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Quizz = mongoose.model("Quizz", quizzSchema);
