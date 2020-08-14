@@ -66,8 +66,10 @@ router.patch("/:id", (req, res) => {
 router.get("/", (req, res, next) => {
   // console.log(req.query)
   const query= {...req.query};
-  console.log(query)
+  console.log("query",query)
   User.find( {$and : [query]})
+  .populate('teams')
+  .populate('quizzCreated')
     .then((users) => {
       console.log("in back", users)
       res.status(200).json(users);
@@ -77,5 +79,16 @@ router.get("/", (req, res, next) => {
       res.status(500).json(err);
     });
 });
+
+router.delete("/",(req,res,next)=>{
+  console.log("usertodelete,",req.query._id)
+  User.findByIdAndDelete(req.query._id)
+  .then((deletedUser)=>{
+    res.status(200).json(deletedUser);
+  })
+  .catch((err) => {
+    res.status(500).json(err);
+  });
+})
 
 module.exports = router;
