@@ -4,6 +4,7 @@ const User = require("../models/User");
 // const Quizz = require("../models/Quizz");
 // const Teams = require("../models/Teams");
 
+
 router.get("/me", (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .populate("teams")
@@ -62,16 +63,17 @@ router.patch("/:id", (req, res) => {
 
 
 
-
-
 router.get("/", (req, res, next) => {
   // console.log(req.query)
-  const query= {};
-  User.find({_id: {"$nin": [] }})
+  const query= {...req.query};
+  console.log(query)
+  User.find( {$and : [query]})
     .then((users) => {
+      console.log("in back", users)
       res.status(200).json(users);
     })
     .catch((err) => {
+      console.error("in back", err)
       res.status(500).json(err);
     });
 });
