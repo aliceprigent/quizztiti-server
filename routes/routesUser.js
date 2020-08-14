@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const salt = 10;
 // const Quizz = require("../models/Quizz");
 // const Teams = require("../models/Teams");
-
 
 router.get("/me", (req, res, next) => {
   User.findById(req.session.currentUser._id)
@@ -21,12 +22,19 @@ router.get("/me", (req, res, next) => {
 
 router.patch("/me", (req, res) => {
   // console.log(req.body);
-  User.findByIdAndUpdate(req.session.currentUser._id, req.body, {
+  const { name, email, password, image } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, salt);
+  const updatedUser = { name, email, password : hashedPassword, image };
+
+  User.findByIdAndUpdate(req.session.currentUser._id, updatedUser, {
     new: true,
   })
     .then((updatedUser) => {
       // console.log("updated user :", updatedUser);
-      res.status(200).json(updatedUser);
+      const userObj = updatedUser.toObject();
+      delete userObj.password;
+      req.session.currentUser = userObj;
+      res.status(200).json(userObj);
     })
     .catch((err) => {
       res.status(500).json(err);
