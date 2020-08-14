@@ -55,6 +55,7 @@ router.patch("/delete-team", (req, res) => {
     });
 });
 
+
 router.patch("/:id", (req, res) => {
   //console.log(req.body);
   User.findByIdAndUpdate(req.params.id, req.body, {
@@ -70,22 +71,43 @@ router.patch("/:id", (req, res) => {
 });
 
 
-
+// RETRIVE USERS WITH A AND QUERY
 router.get("/", (req, res, next) => {
   // console.log(req.query)
   const query= {...req.query};
   console.log(query)
   User.find( {$and : [query]})
     .then((users) => {
-      console.log("in back", users)
+      console.log("getting users with query in back", users)
       res.status(200).json(users);
     })
     .catch((err) => {
-      console.error("in back", err)
+      console.error("ERR while getting users with query in back", err)
       res.status(500).json(err);
     });
 });
 
+//RESET PASSWORD FOR A USER
+router.patch("/reset/:name", (req, res)=> {
+   console.log("rest pwd body : ", req.body)
+const {email, password} = req.body;
+const hashedPassword = bcrypt.hashSync(password, salt);
+  const updatedPassword = { password : hashedPassword};
+
+User.findOneAndUpdate( {$and : [{name : req.params.name}, {email : email}]}, updatedPassword, {new :true})
+    .then((updatedUser) => {
+      const userObj = updatedUser.toObject();
+      delete userObj.password;
+      console.log("user with reset pwd", userObj);
+      req.session.currentUser = userObj;
+      res.status(200).json(userObj);
+    })
+    .catch((err) => {
+      console.error("ERR while pwd reset in back", err)
+      res.status(500).json(err);
+    });
+
+})
 
 
 
