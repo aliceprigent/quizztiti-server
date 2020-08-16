@@ -75,12 +75,12 @@ router.patch("/:id", (req, res) => {
 router.get("/", (req, res, next) => {
   // console.log(req.query)
   const query= {...req.query};
-  console.log("query",query)
+  // console.log("query",query)
   User.find( {$and : [query]})
   .populate('teams')
   .populate('quizzCreated')
     .then((users) => {
-      console.log("getting users with query in back", users)
+      // console.log("getting users with query in back", users)
       res.status(200).json(users);
     })
     .catch((err) => {
@@ -91,7 +91,7 @@ router.get("/", (req, res, next) => {
 
 //RESET PASSWORD FOR A USER
 router.patch("/reset/:name", (req, res)=> {
-   console.log("rest pwd body : ", req.body)
+  //  console.log("rest pwd body : ", req.body)
 const {email, password} = req.body;
 const hashedPassword = bcrypt.hashSync(password, salt);
   const updatedPassword = { password : hashedPassword};
@@ -100,7 +100,7 @@ User.findOneAndUpdate( {$and : [{name : req.params.name}, {email : email}]}, upd
     .then((updatedUser) => {
       const userObj = updatedUser.toObject();
       delete userObj.password;
-      console.log("user with reset pwd", userObj);
+      // console.log("user with reset pwd", userObj);
       req.session.currentUser = userObj;
       res.status(200).json(userObj);
     })
@@ -116,7 +116,7 @@ User.findOneAndUpdate( {$and : [{name : req.params.name}, {email : email}]}, upd
 
 
 router.delete("/",(req,res,next)=>{
-  console.log("usertodelete,",req.query._id)
+  // console.log("usertodelete,",req.query._id)
   User.findByIdAndDelete(req.query._id)
   .then((deletedUser)=>{
     res.status(200).json(deletedUser);
